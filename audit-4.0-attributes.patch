@@ -1,0 +1,45 @@
+From 0db6e0960a5c55b468f21f9841bbc7e67832b66a Mon Sep 17 00:00:00 2001
+From: Steve Grubb <ausearch.1@gmail.com>
+Date: Wed, 17 Jan 2024 12:07:25 -0500
+Subject: [PATCH] Update function attributes
+
+---
+ auparse/auparse.h |  2 +-
+ lib/libaudit.h    | 10 +++++-----
+ 2 files changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/auparse/auparse.h b/auparse/auparse.h
+index c27f1ff96..0b3f68c35 100644
+--- a/auparse/auparse.h
++++ b/auparse/auparse.h
+@@ -68,7 +68,7 @@ void auparse_add_callback(auparse_state_t *au, auparse_callback_ptr callback,
+ 			void *user_data, user_destroy user_destroy_func);
+ void auparse_set_escape_mode(auparse_state_t *au, auparse_esc_t mode);
+ int auparse_reset(auparse_state_t *au);
+-char *auparse_metrics(const auparse_state_t *au);
++char *auparse_metrics(const auparse_state_t *au) __attr_dealloc_free;
+ 
+ /* Functions that are part of the search interface */
+ int ausearch_add_expression(auparse_state_t *au, const char *expression,
+diff --git a/lib/libaudit.h b/lib/libaudit.h
+index 34b337a7c..15ea2e6f4 100644
+--- a/lib/libaudit.h
++++ b/lib/libaudit.h
+@@ -248,12 +248,12 @@ int  audit_set_enabled(int fd, uint32_t enabled) __wur;
+ int  audit_set_failure(int fd, uint32_t failure) __wur;
+ int  audit_set_rate_limit(int fd, uint32_t limit);
+ int  audit_set_backlog_limit(int fd, uint32_t limit);
+-int audit_set_backlog_wait_time(int fd, uint32_t bwt);
+-int audit_reset_lost(int fd);
+-int audit_reset_backlog_wait_time_actual(int fd);
++int  audit_set_backlog_wait_time(int fd, uint32_t bwt);
++int  audit_reset_lost(int fd);
++int  audit_reset_backlog_wait_time_actual(int fd);
+ int  audit_set_feature(int fd, unsigned feature, unsigned value,
+-		      unsigned lock);
+-int  audit_set_loginuid_immutable(int fd);
++		      unsigned lock) __wur;
++int  audit_set_loginuid_immutable(int fd) __wur;
+ 
+ /* AUDIT_LIST_RULES */
+ int  audit_request_rules_list_data(int fd);
