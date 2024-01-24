@@ -2,7 +2,7 @@
 Summary: User space tools for kernel auditing
 Name: audit
 Version: 4.0
-Release: 4%{?dist}
+Release: 5%{?dist}
 License: GPL-2.0-or-later AND LGPL-2.0-or-later
 URL: http://people.redhat.com/sgrubb/audit/
 Source0: http://people.redhat.com/sgrubb/audit/%{name}-%{version}.tar.gz
@@ -170,7 +170,7 @@ if [ "$files" -eq 0 ] ; then
 	# Fix up permissions
 	chmod 0600 /etc/audit/rules.d/audit.rules
 	# Make the new rules active
-	augenrules --load
+	augenrules --load || true
 fi
 
 %preun
@@ -184,7 +184,7 @@ fi
 %systemd_preun audit-rules.service
 # If uninstalling, delete the rules loaded in the kernel
 if [ $1 -eq 0 ]; then
-    auditctl -D > /dev/null 2>&1
+    auditctl -D > /dev/null 2>&1 || true
 fi
 
 %files libs
@@ -286,7 +286,7 @@ fi
 %attr(750,root,root) %{_sbindir}/audispd-zos-remote
 
 %changelog
-* Wed Jan 24 2024 Steve Grubb <sgrubb@redhat.com> 4.0-4
+* Wed Jan 24 2024 Steve Grubb <sgrubb@redhat.com> 4.0-5
 - Auditd is stopping during upgrade (bz 2259610)
 
 * Mon Jan 22 2024 Fedora Release Engineering <releng@fedoraproject.org> - 4.0-3
