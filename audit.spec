@@ -158,17 +158,15 @@ if [ "$files" -eq 0 ] ; then
 	echo "No rules detected, adding default"
 %if 0%{?rhel}
 	if [ -e %{_datadir}/%{name}-rules/10-base-config.rules ] ; then
-		cp %{_datadir}/%{name}-rules/10-base-config.rules /etc/audit/rules.d/audit.rules
+		install -m 0600 -u 0 -g 0 -p %{_datadir}/%{name}-rules/10-base-config.rules /etc/audit/rules.d/audit.rules
 %else
 	# FESCO asked for audit to be off by default. #1117953
 	if [ -e %{_datadir}/%{name}-rules/10-no-audit.rules ] ; then
-	        cp %{_datadir}/%{name}-rules/10-no-audit.rules /etc/audit/rules.d/audit.rules
+        install -m 0600 -u 0 -g 0 -p %{_datadir}/%{name}-rules/10-no-audit.rules /etc/audit/rules.d/audit.rules
 %endif
 	else
-		touch /etc/audit/rules.d/audit.rules
+		install -m 0600 -u 0 -g 0 /dev/null /etc/audit/rules.d/audit.rules
 	fi
-	# Fix up permissions
-	chmod 0600 /etc/audit/rules.d/audit.rules
 	# Make the new rules active
 	augenrules --load || true
 fi
