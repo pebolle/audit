@@ -2,7 +2,7 @@
 Summary: User space tools for kernel auditing
 Name: audit
 Version: 4.0
-Release: 5%{?dist}
+Release: 6%{?dist}
 License: GPL-2.0-or-later AND LGPL-2.0-or-later
 URL: http://people.redhat.com/sgrubb/audit/
 Source0: http://people.redhat.com/sgrubb/audit/%{name}-%{version}.tar.gz
@@ -291,6 +291,9 @@ fi
 %attr(750,root,root) %{_sbindir}/audispd-zos-remote
 
 %changelog
+* Thu Jan 25 2024 Steve Grubb <sgrubb@redhat.com> 4.0-6
+- Don't do "live" operations during rpm-ostree composes
+
 * Wed Jan 24 2024 Steve Grubb <sgrubb@redhat.com> 4.0-5
 - Auditd is stopping during upgrade (bz 2259610)
 
