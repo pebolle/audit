@@ -138,6 +138,10 @@ rm -f rules/Makefile*
 
 %post
 %systemd_post auditd.service
+# Do not perform service start/restart when running during an rpm-ostree compose
+if [[ -f /run/ostree-booted ]]: then
+    exit 0
+fi
 # If an upgrade, restart it if it's running
 if [ $1 -eq 2 ]; then
     state=$(systemctl status auditd | awk '/Active:/ { print $2 }')
@@ -167,8 +171,11 @@ if [ "$files" -eq 0 ] ; then
 	else
 		install -m 0600 -u 0 -g 0 /dev/null /etc/audit/rules.d/audit.rules
 	fi
-	# Make the new rules active
-	augenrules --load || true
+    # Only load the new rules if not running during an rpm-ostree compose
+    if [[ ! -f /run/ostree-booted ]]: then
+        # Make the new rules active
+        augenrules --load || true
+    fi
 fi
 
 %preun
