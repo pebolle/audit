@@ -105,10 +105,10 @@ sed -i 's/ ids / /' audisp/plugins/Makefile.in
 
 %build
 %configure --with-python=no \
-	   --with-python3=yes \
-	   --enable-gssapi-krb5=yes --with-arm --with-aarch64 \
-	   --with-libcap-ng=yes --without-golang --enable-zos-remote \
-	   --enable-systemd --enable-experimental --with-io_uring
+           --with-python3=yes \
+           --enable-gssapi-krb5=yes --with-arm --with-aarch64 \
+           --with-libcap-ng=yes --without-golang --enable-zos-remote \
+           --enable-systemd --enable-experimental --with-io_uring
 
 make CFLAGS="%{optflags}" %{?_smp_mflags}
 
@@ -159,18 +159,18 @@ fi
 # Copy default rules into place on new installation
 files=`ls /etc/audit/rules.d/ 2>/dev/null | wc -w`
 if [ "$files" -eq 0 ] ; then
-	echo "No rules detected, adding default"
+    echo "No rules detected, adding default"
 %if 0%{?rhel}
-	if [ -e %{_datadir}/%{name}-rules/10-base-config.rules ] ; then
-		install -m 0600 -u 0 -g 0 -p %{_datadir}/%{name}-rules/10-base-config.rules /etc/audit/rules.d/audit.rules
+    if [ -e %{_datadir}/%{name}-rules/10-base-config.rules ] ; then
+        install -m 0600 -u 0 -g 0 -p %{_datadir}/%{name}-rules/10-base-config.rules /etc/audit/rules.d/audit.rules
 %else
-	# FESCO asked for audit to be off by default. #1117953
-	if [ -e %{_datadir}/%{name}-rules/10-no-audit.rules ] ; then
+    # FESCO asked for audit to be off by default. #1117953
+    if [ -e %{_datadir}/%{name}-rules/10-no-audit.rules ] ; then
         install -m 0600 -u 0 -g 0 -p %{_datadir}/%{name}-rules/10-no-audit.rules /etc/audit/rules.d/audit.rules
 %endif
-	else
-		install -m 0600 -u 0 -g 0 /dev/null /etc/audit/rules.d/audit.rules
-	fi
+    else
+        install -m 0600 -u 0 -g 0 /dev/null /etc/audit/rules.d/audit.rules
+    fi
     # Only load the new rules if not running during an rpm-ostree compose
     if [[ ! -f /run/ostree-booted ]]: then
         # Make the new rules active
