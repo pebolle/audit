@@ -1,13 +1,12 @@
 
 Summary: User space tools for kernel auditing
 Name: audit
-Version: 4.0
-Release: 8%{?dist}
+Version: 4.0.1
+Release: 1%{?dist}
 License: GPL-2.0-or-later AND LGPL-2.0-or-later
 URL: http://people.redhat.com/sgrubb/audit/
 Source0: http://people.redhat.com/sgrubb/audit/%{name}-%{version}.tar.gz
 Source1: https://www.gnu.org/licenses/lgpl-2.1.txt
-Patch1: audit-4.0-attributes.patch
 BuildRequires: make gcc
 BuildRequires: kernel-headers >= 5.0
 BuildRequires: systemd
@@ -96,7 +95,6 @@ The audit rules package contains the rules and utilities to load audit rules.
 
 %prep
 %setup -q
-%patch 1 -p1
 cp %{SOURCE1} .
 
 # Remove the ids code, its not ready
@@ -291,6 +289,9 @@ fi
 %attr(750,root,root) %{_sbindir}/audispd-zos-remote
 
 %changelog
+* Mon Mar 11 2024 Steve Grubb <sgrubb@redhat.com> 4.0.1-1
+- New upstream release
+
 * Sun Feb 04 2024 Timothée Ravier <tim@siosm.fr> - 4.0-8
 - Fix 'install' calls in post scriptlet
 
