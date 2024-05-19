@@ -2,7 +2,7 @@
 Summary: User space tools for kernel auditing
 Name: audit
 Version: 4.0.1
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPL-2.0-or-later AND LGPL-2.0-or-later
 URL: http://people.redhat.com/sgrubb/audit/
 Source0: http://people.redhat.com/sgrubb/audit/%{name}-%{version}.tar.gz
@@ -160,14 +160,14 @@ if [ "$files" -eq 0 ] ; then
     echo "No rules detected, adding default"
 %if 0%{?rhel}
     if [ -e %{_datadir}/%{name}-rules/10-base-config.rules ] ; then
-        install -m 0600 -o 0 -g 0 -p %{_datadir}/%{name}-rules/10-base-config.rules /etc/audit/rules.d/audit.rules
+        install -m 0640 -o 0 -g 0 -p %{_datadir}/%{name}-rules/10-base-config.rules /etc/audit/rules.d/audit.rules
 %else
     # FESCO asked for audit to be off by default. #1117953
     if [ -e %{_datadir}/%{name}-rules/10-no-audit.rules ] ; then
-        install -m 0600 -o 0 -g 0 -p %{_datadir}/%{name}-rules/10-no-audit.rules /etc/audit/rules.d/audit.rules
+        install -m 0640 -o 0 -g 0 -p %{_datadir}/%{name}-rules/10-no-audit.rules /etc/audit/rules.d/audit.rules
 %endif
     else
-        install -m 0600 -o 0 -g 0 /dev/null /etc/audit/rules.d/audit.rules
+        install -m 0640 -o 0 -g 0 /dev/null /etc/audit/rules.d/audit.rules
     fi
     # Only load the new rules if not running during an rpm-ostree compose
     if [ ! -f /run/ostree-booted ] ; then
@@ -293,6 +293,9 @@ fi
 %attr(750,root,root) %{_sbindir}/audispd-zos-remote
 
 %changelog
+* Mon May 20 2024 Steve Grubb <sgrubb@redhat.com> 4.0.1-2
+- Make the modes on audit rules match spec file.
+
 * Mon Mar 11 2024 Steve Grubb <sgrubb@redhat.com> 4.0.1-1
 - New upstream release
 
