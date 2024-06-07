@@ -2,7 +2,7 @@
 Summary: User space tools for kernel auditing
 Name: audit
 Version: 4.0.1
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: GPL-2.0-or-later AND LGPL-2.0-or-later
 URL: http://people.redhat.com/sgrubb/audit/
 Source0: http://people.redhat.com/sgrubb/audit/%{name}-%{version}.tar.gz
@@ -293,6 +293,9 @@ fi
 %attr(750,root,root) %{_sbindir}/audispd-zos-remote
 
 %changelog
+* Fri Jun 07 2024 Python Maint <python-maint@redhat.com> - 4.0.1-3
+- Rebuilt for Python 3.13
+
 * Mon May 20 2024 Steve Grubb <sgrubb@redhat.com> 4.0.1-2
 - Make the modes on audit rules match spec file.
 
