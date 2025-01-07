@@ -98,12 +98,11 @@ The audit rules package contains the rules and utilities to load audit rules.
 %setup -q -n %{name}-userspace-%{version}
 cp %{SOURCE1} .
 
+%build
+autoreconf -fv --install
 # Remove the ids code, its not ready
 sed -i 's/ ids / /' audisp/plugins/Makefile.am
 sed -i 's/ ids / /' audisp/plugins/Makefile.in
-
-%build
-autoreconf -fv --install
 %configure --with-python=no \
            --with-python3=yes \
            --enable-gssapi-krb5=yes --with-arm --with-aarch64 --with-riscv \
